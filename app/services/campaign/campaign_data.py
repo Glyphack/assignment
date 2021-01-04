@@ -3,10 +3,16 @@ from app.services.campaign.constants import CampaignBannersDataFields
 from app.services.static_files import csv_reader
 
 
-def get_campaign_all_banners_data_frame(campaign_id: int, index: int):
-    conversions = csv_reader.get_conversions_data_frame(index=index)
-    clicks = csv_reader.get_clicks_data_frame(index=index)
-    impressions = csv_reader.get_impressions_data_frame(index=index)
+async def get_campaign_all_banners_data_frame(campaign_id: int, index: int):
+    conversions = await csv_reader.CampaignDataFramesManager.get_data_frame(
+        "conversions", index
+    )
+    clicks = await csv_reader.CampaignDataFramesManager.get_data_frame(
+        "clicks", index
+    )
+    impressions = await csv_reader.CampaignDataFramesManager.get_data_frame(
+        "impressions", index
+    )
 
     merged_conversion_clicks = pd.merge(
         conversions, clicks, how="right", on="click_id", validate="one_to_one"
