@@ -13,6 +13,7 @@ from fastapi.responses import HTMLResponse
 router = APIRouter()
 
 
+# response time can be improved using caching the banners value
 @router.get("/campaign/{campaign_id}", response_class=HTMLResponse)
 async def get_campaign_banners(request: Request, campaign_id):
     all_banners = await get_campaign_all_banners_data_frame(
@@ -25,5 +26,5 @@ async def get_campaign_banners(request: Request, campaign_id):
     banner_images = [
         banner_image.get_banner_image_url(banner) for banner in banners
     ]
-    random.shuffle(banners)
+    random.shuffle(banner_images)
     return render_to_string('campaign.html', banners=banner_images)

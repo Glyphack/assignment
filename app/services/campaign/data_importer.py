@@ -1,5 +1,5 @@
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from app.core import config
 from app.utils.read_csv import get_csv_async
@@ -10,11 +10,12 @@ logger = logging.getLogger(__name__)
 class CampaignDataFramesManager:
     cache = {}
     updated_time = datetime.now()
+    ttl_hours = config.CAMPAIGN_CSV_CACHE_TTL_HOURS
 
     @classmethod
     async def get_data_frame(cls, sheet_name, index):
         cached_data = cls.cache.get(cls.get_cache_key(sheet_name, index))
-        if cached_data is not None and cls.is_cache_valid():
+        if cached_data is not None:
             return cached_data
 
         csv = await cls.download_campaign_data_csv(sheet_name, index)
@@ -41,7 +42,8 @@ class CampaignDataFramesManager:
         """
         we should update cache every hour
         """
-        return cls.updated_time.hour == datetime.now().hour
+        return cls.updated_time + timedelta(hours=cls.ttl_hours
+                                            ) > datetime.now()
 
     @staticmethod
     def get_cache_key(sheet_name, index):
