@@ -18,7 +18,6 @@ class CampaignDataFramesManager:
             return cached_data
 
         csv = await cls.download_campaign_data_csv(sheet_name, index)
-        cls.set_cache(cls.get_cache_key(sheet_name, index), csv)
         return csv
 
     @classmethod
@@ -28,7 +27,13 @@ class CampaignDataFramesManager:
                 csv = await cls.download_campaign_data_csv(
                     sheet_name=sheet_name, index=index
                 )
-                cls.set_cache(cls.get_cache_key(sheet_name, index), csv)
+                if cls.should_replace_csv(
+                    new=csv,
+                    previous=cls.cache.get(
+                        cls.get_cache_key(sheet_name, index)
+                    )
+                ):
+                    cls.set_cache(cls.get_cache_key(sheet_name, index), csv)
         cls.updated_time = datetime.now()
 
     @classmethod
@@ -44,8 +49,7 @@ class CampaignDataFramesManager:
 
     @classmethod
     def set_cache(cls, key, value):
-        if cls.should_replace_csv(value, cls.cache.get(key)):
-            cls.cache[key] = value
+        cls.cache[key] = value
 
     @staticmethod
     async def download_campaign_data_csv(sheet_name, index):
