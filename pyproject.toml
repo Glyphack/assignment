@@ -16,6 +16,7 @@ fastapi-utils = "^0.2.1"
 Jinja2 = "^2.11.2"
 
 [tool.poetry.dev-dependencies]
+locust = "^1.4.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
