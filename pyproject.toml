@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "assignment"
+version = "0.1.0"
+description = ""
+authors = ["Shayegan Hooshyari <sh.hooshyari@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = ">=3.7.1,<4.0"
+aiofiles = "^0.6.0"
+fastapi = "0.63.0"
+pandas = "1.2.0"
+python-dotenv = "0.15.0"
+uvicorn = "^0.13.3"
+aiohttp = "^3.7.3"
+fastapi-utils = "^0.2.1"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
