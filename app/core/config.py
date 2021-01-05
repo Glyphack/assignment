@@ -8,3 +8,5 @@ load_dotenv(dotenv_path=os.path.join(BASEDIR, '.env'))
 CSV_FILES_PATH = os.path.join(os.path.dirname(BASEDIR), '/static/csv')
 
 STATIC_CONTENT_BASE_URL = os.getenv("STATIC_CONTENT_URL")
+
+CSV_DUPLICATE_PERCENTAGE_REJECT_THRESHOLD = 50
