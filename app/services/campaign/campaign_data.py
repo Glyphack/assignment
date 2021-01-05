@@ -1,16 +1,16 @@
 import pandas as pd
 from app.services.campaign.constants import CampaignBannersDataFields
-from app.services.static_files import csv_reader
+from app.services.campaign import data_importer
 
 
 async def get_campaign_all_banners_data_frame(campaign_id: int, index: int):
-    conversions = await csv_reader.CampaignDataFramesManager.get_data_frame(
+    conversions = await data_importer.CampaignDataFramesManager.get_data_frame(
         "conversions", index
     )
-    clicks = await csv_reader.CampaignDataFramesManager.get_data_frame(
+    clicks = await data_importer.CampaignDataFramesManager.get_data_frame(
         "clicks", index
     )
-    impressions = await csv_reader.CampaignDataFramesManager.get_data_frame(
+    impressions = await data_importer.CampaignDataFramesManager.get_data_frame(
         "impressions", index
     )
 

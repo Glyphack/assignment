@@ -1,6 +1,6 @@
 from datetime import datetime
 from app.server.routes import api_router
-from app.services.static_files.csv_reader import CampaignDataFramesManager
+from app.services.campaign.data_importer import CampaignDataFramesManager
 from fastapi import FastAPI
 from fastapi_utils.tasks import repeat_every
 app = FastAPI(title="campaign_banner", version="0.1.0")
