@@ -1,3 +1,4 @@
+from app.utils.time import get_hour_quarter
 import random
 
 from app.services.campaign.banner_chooser import BannerChooser
@@ -6,7 +7,7 @@ from app.services.campaign.campaign_data import (
 )
 from app.services.static_files import banner_image
 from app.services.templates.template import render_to_string
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, HTTPException
 from fastapi.responses import HTMLResponse
 
 router = APIRouter()
@@ -14,7 +15,11 @@ router = APIRouter()
 
 @router.get("/campaign/{campaign_id}", response_class=HTMLResponse)
 async def get_campaign_banners(request: Request, campaign_id):
-    all_banners = await get_campaign_all_banners_data_frame(campaign_id, 1)
+    all_banners = await get_campaign_all_banners_data_frame(
+        campaign_id, get_hour_quarter
+    )
+    if all_banners is None:
+        raise HTTPException(status_code=404, detail="campaign not found")
     banner_chooser = BannerChooser(all_banners)
     banners = banner_chooser.choose_banners()
     banner_images = [
